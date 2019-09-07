@@ -38,7 +38,7 @@ namespace MP3_Merger
             openFileDialog.InitialDirectory = "c:\\";
             openFileDialog.FilterIndex = 0;
             openFileDialog.RestoreDirectory = true;
-            openFileDialog.Filter = "MP3 files (*.mp3)|*.mp3|M4A files (*.m4a*)|*.m4a*";
+            openFileDialog.Filter = "MP3 files (*.mp3)|*.mp3";
             openFileDialog.Multiselect = true;
 
             if (openFileDialog.ShowDialog() == true)
