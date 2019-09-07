@@ -1,20 +1,10 @@
 ﻿using Microsoft.Win32;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MP3_Merger
 {
@@ -55,7 +45,7 @@ namespace MP3_Merger
             {
                 txt_SourcePath.Text = openFileDialog.FileNames.Length.ToString() + " Files Selected";
 
-                foreach(string path in openFileDialog.FileNames)
+                foreach (string path in openFileDialog.FileNames)
                 {
                     filePaths.Add(path);
                 }
@@ -64,7 +54,7 @@ namespace MP3_Merger
 
         private void Btn_Start_Click(object sender, RoutedEventArgs e)
         {
-            if(filePaths.Count > 0 && txt_DestinationFileName.Text != "")
+            if (filePaths.Count > 0 && txt_DestinationFileName.Text != "")
             {
 
                 path = System.IO.Path.GetDirectoryName(filePaths[1]);
@@ -75,28 +65,41 @@ namespace MP3_Merger
 
                 backgroundWorker.RunWorkerAsync();
 
-              
+
+            }
+            else
+            {
+                MessageBox.Show("Missing Source or Destination Filename", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
         private void Merger()
         {
-           
-
-            using (var fileStream = File.OpenWrite(System.IO.Path.Combine(path, destination)))
+            try
             {
-                int i = 0;
-                foreach (var file in filePaths)
+                using (var fileStream = File.OpenWrite(System.IO.Path.Combine(path, destination)))
                 {
-                    var buffer = File.ReadAllBytes(System.IO.Path.Combine(path, file));
-                    fileStream.Write(buffer, 0, buffer.Length);
-                    i++;
-                    backgroundWorker.ReportProgress(i);
+                    int i = 0;
+                    foreach (var file in filePaths)
+                    {
+                        var buffer = File.ReadAllBytes(System.IO.Path.Combine(path, file));
+                        fileStream.Write(buffer, 0, buffer.Length);
+                        i++;
+                        backgroundWorker.ReportProgress(i);
+                    }
+
+                    fileStream.Flush();
+
+                    MessageBox.Show("Merging Successfull!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    System.Diagnostics.Process.Start("explorer.exe", path);
+
                 }
-
-                fileStream.Flush();
             }
+            catch {
 
+                MessageBox.Show("Merging Failed! \n Please try again", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void backgroundworker_ProgressChanged(object sender, ProgressChangedEventArgs eventArgs)
