@@ -38,16 +38,16 @@ namespace MP3_Merger
             openFileDialog.InitialDirectory = "c:\\";
             openFileDialog.FilterIndex = 0;
             openFileDialog.RestoreDirectory = true;
-            openFileDialog.Filter = "MP3 files (*.mp3)|*.mp3";
+            openFileDialog.Filter = "MP3 files (*.mp3)|*.mp3";          //File extension filter
             openFileDialog.Multiselect = true;
 
             if (openFileDialog.ShowDialog() == true)
             {
-                txt_SourcePath.Text = openFileDialog.FileNames.Length.ToString() + " Files Selected";
+                txt_SourcePath.Text = openFileDialog.FileNames.Length.ToString() + " Files Selected";   
 
                 foreach (string path in openFileDialog.FileNames)
                 {
-                    filePaths.Add(path);
+                    filePaths.Add(path);                //Add selected files to list
                 }
             }
         }
@@ -57,19 +57,19 @@ namespace MP3_Merger
             if (filePaths.Count > 0 && txt_DestinationFileName.Text != "")
             {
 
-                path = System.IO.Path.GetDirectoryName(filePaths[1]);
-                destination = txt_DestinationFileName.Text + System.IO.Path.GetExtension(filePaths[1]);
+                path = Path.GetDirectoryName(filePaths[1]);
+                destination = txt_DestinationFileName.Text + System.IO.Path.GetExtension(filePaths[1]);     //set destination path
 
-                ProgressBar.Maximum = filePaths.Count();
+                ProgressBar.Maximum = filePaths.Count();        //set maximum of progressbar
                 ProgressBar.Value = 0;
 
-                backgroundWorker.RunWorkerAsync();
+                backgroundWorker.RunWorkerAsync();      //start backgroundworker
 
 
             }
             else
             {
-                MessageBox.Show("Missing Source or Destination Filename", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Missing Source or Destination Filename", "Error", MessageBoxButton.OK, MessageBoxImage.Error);     //Messagebox error no source no destinationfilename
             }
         }
 
@@ -77,12 +77,12 @@ namespace MP3_Merger
         {
             try
             {
-                using (var fileStream = File.OpenWrite(System.IO.Path.Combine(path, destination)))
+                using (var fileStream = File.OpenWrite(Path.Combine(path, destination)))
                 {
                     int i = 0;
                     foreach (var file in filePaths)
                     {
-                        var buffer = File.ReadAllBytes(System.IO.Path.Combine(path, file));
+                        var buffer = File.ReadAllBytes(Path.Combine(path, file));
                         fileStream.Write(buffer, 0, buffer.Length);
                         i++;
                         backgroundWorker.ReportProgress(i);
@@ -90,26 +90,26 @@ namespace MP3_Merger
 
                     fileStream.Flush();
 
-                    MessageBox.Show("Merging Successfull!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Merging Successfull!", "Information", MessageBoxButton.OK, MessageBoxImage.Information);       //Messagebox succesfull merge
 
-                    System.Diagnostics.Process.Start("explorer.exe", path);
+                    System.Diagnostics.Process.Start("explorer.exe", path);     //open explorer with correct folder
 
                 }
             }
             catch {
 
-                MessageBox.Show("Merging Failed! \n Please try again", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("Merging Failed! \n Please try again", "Error", MessageBoxButton.OK, MessageBoxImage.Error);    //Messagebox merging failed 
             }
         }
 
         private void backgroundworker_ProgressChanged(object sender, ProgressChangedEventArgs eventArgs)
         {
-            ProgressBar.Value = eventArgs.ProgressPercentage;
+            ProgressBar.Value = eventArgs.ProgressPercentage;           //Change current value of progressbar
         }
 
         private void backgroundworker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Merger();
+            Merger();       //call merger
         }
     }
 }
