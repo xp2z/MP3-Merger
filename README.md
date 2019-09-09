@@ -1,7 +1,21 @@
-# MP3-Merger
-Simple MP3-Merger
+# MP3Merger
+<br>
+<h2> Small  project to merge two or more MP3 files into a single file. </h2>
+<hr>
 
-Instructions:
-1: Select two or more files to merge\n
-2: Enter the wished filename\n
-3: Press start\n
+<h3>Instructions: </h3> <br>
+
+<p>
+<ol>
+  <li> Select two or more mp3 files</li>
+  <li> Insert the wished mp3 name/li>
+  <li> Click on Start.</li>
+</ol>
+</p>
+
+<hr>
+
+<h3>Notes:</h3> <br>
+<p>
+//
+</p>
