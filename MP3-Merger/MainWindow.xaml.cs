@@ -54,7 +54,7 @@ namespace MP3_Merger
 
         private void Btn_Start_Click(object sender, RoutedEventArgs e)
         {
-            if (filePaths.Count > 0 && txt_DestinationFileName.Text != "")
+            if (filePaths.Count >= 2 && txt_DestinationFileName.Text != "")
             {
 
                 path = Path.GetDirectoryName(filePaths[1]);
@@ -65,6 +65,11 @@ namespace MP3_Merger
 
                 backgroundWorker.RunWorkerAsync();      //start backgroundworker
 
+
+            }
+            else if(filePaths.Count == 1)
+            {
+                MessageBox.Show("Please select at minimum two files", "Error", MessageBoxButton.OK, MessageBoxImage.Error);     //Messagebox error no source no destinationfilename
 
             }
             else
