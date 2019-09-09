@@ -8,7 +8,7 @@
 <p>
 <ol>
   <li> Select two or more mp3 files</li>
-  <li> Insert the wished mp3 name/li>
+  <li> Insert the wished mp3 name</li>
   <li> Click on Start.</li>
 </ol>
 </p>
